@@ -1,15 +1,18 @@
 import { ActionTypes, Actions, Todo } from "./types";
 
-const initialState: Todo[] = [
-  { id: 0, text: "Learn React", completed: true },
-  { id: 1, text: "Learn Redux", completed: false },
-  { id: 2, text: "Build something fun!", completed: false },
-];
+const initialState: Todo[] = [];
 
-export const todoReducer = (state = initialState, action: Actions) => {
-  switch (action.type) {
+export const todoReducer = (
+  state = initialState,
+  { payload, type }: Actions
+) => {
+  switch (type) {
     case ActionTypes.Insert:
-      return [...state, { ...action.payload, completed: false }];
+      return [...state, { ...payload, completed: false }];
+    case ActionTypes.Delete:
+      return state.filter(({ id }) => id !== payload);
+    case ActionTypes.Set:
+      return [...state, ...payload];
     default:
       return state;
   }
